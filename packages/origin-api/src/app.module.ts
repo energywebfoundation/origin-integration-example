@@ -8,9 +8,14 @@ import {
 } from "@energyweb/origin-backend";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
+import { ConfigModule } from "@nestjs/config";
 
 @Module({
   imports: [
+    ConfigModule.forRoot({
+      envFilePath: "../../.env",
+      isGlobal: true,
+    }),
     TypeOrmModule.forRoot({
       type: "postgres",
       host: process.env.DB_HOST ?? "localhost",
