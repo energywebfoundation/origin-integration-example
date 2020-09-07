@@ -67,6 +67,21 @@ which generates `package.json` with such an content in our packages directory
 }
 ```
 
+Since we want to take an advantage of `workspaces` feature of Yarn we need to modify that `package.json` and add corresponding directives
+
+
+```json
+{
+  "name": "origin-api",
+  "version": "1.0.0",
+  "main": "index.js",
+  "license": "MIT",
+  "workspaces": [
+    "packages/*"
+  ]
+}
+```
+
 and our project structure should look like
 
 ```
