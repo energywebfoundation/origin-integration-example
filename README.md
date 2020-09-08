@@ -27,7 +27,7 @@ as an result we should end up with such a project structure
 
 Next let's edit `lerna.json` file and add those lines which will setup lerna to use Yarn workspaces capabilities
 
-```
+```json
 "npmClient": "yarn",
 "useWorkspaces": true
 ```
@@ -43,16 +43,27 @@ as an result our `lerna.json` should look like
 }
 ```
 
+Since we want to take an advantage of `workspaces` feature of Yarn we need to modify that `package.json` and add corresponding directives
+
+```json
+{
+  "name": "root",
+  "private": true,
+  "workspaces": [
+    "packages/*"
+  ]
+}
+```
+
 ## Origin API project using Origin SDK
 
 ### Project setup
 
 Let's now create an package for hosting Origin SDK API based project.
 
-```
-cd packages
-mkdir origin-api
-cd origin-api
+```cmd
+mkdir packages/origin-api
+cd packages/origin-api
 yarn init -y
 ```
 
@@ -64,21 +75,6 @@ which generates `package.json` with such an content in our packages directory
   "version": "1.0.0",
   "main": "index.js",
   "license": "MIT"
-}
-```
-
-Since we want to take an advantage of `workspaces` feature of Yarn we need to modify that `package.json` and add corresponding directives
-
-
-```json
-{
-  "name": "origin-api",
-  "version": "1.0.0",
-  "main": "index.js",
-  "license": "MIT",
-  "workspaces": [
-    "packages/*"
-  ]
 }
 ```
 
@@ -103,7 +99,7 @@ Our tutorial will utilize Typescript as tool of choice, as such this is not a re
 
 Make sure you are in
 
-```
+```bash
 cd packages/origin-api
 yarn add typescript --dev
 touch tsconfig.json
@@ -145,7 +141,7 @@ yarn add @nestjs/cli @nestjs/common @nestjs/core @nestjs/config @nestjs/typeorm 
 
 Next add the start script to your `origin-api/package.json`
 
-```
+```json
 "scripts": {
     "build": "tsc",
     "start": "nest start -p tsconfig.json"
@@ -278,7 +274,7 @@ The DB of choice used by Origin SDK is Postgres SQL, while it's possible to use 
 
 We recommend using Docker to install provision Postgres SQL for Origin API. Script below requires `psql` tool for DB creation process, follow this guide to install it on your OS of choice https://blog.timescale.com/tutorials/how-to-install-psql-on-mac-ubuntu-debian-windows/
 
-```bash
+```cmd
 docker pull postgres
 docker run --name origin-postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
 psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE origin"
@@ -401,7 +397,9 @@ Next, let's add those scripts `typeorm:migrate` script to our main `package.json
 
 We can now run the DB migration script for test:
 
-`yarn typeorm:migrate`
+```
+yarn typeorm:migrate
+```
 
 as a result we would see the DB creating SQL scripts executed and that ends similar to
 
@@ -677,164 +675,10 @@ origin-api: $ nest start -p tsconfig.json
 origin-api: [Nest] 87813   - 09/04/2020, 1:59:32 PM   [NestFactory] Starting Nest application...
 origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AppModule dependencies initialized +100ms
 origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] MailerModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] PassportModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] RunnerModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] ConfigHostModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] DiscoveryModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] ConfigModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] ConfigModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] ConfigModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] CqrsModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] CqrsModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] ScheduleModule dependencies initialized +2ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] FileModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AccountDeployerModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AppModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] WithdrawalProcessorModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] DepositWatcherModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] MailerCoreModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] JwtModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] MailModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] NotificationModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmCoreModule dependencies initialized +39ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TypeOrmModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] EmailConfirmationModule dependencies initialized +2ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] ProductModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] OrderBookModule dependencies initialized +2ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AccountBalanceModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AssetModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AccountModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AdminModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] MatchingEngineModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] ConfigurationModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] BundleModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AuthModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] DemandModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TransferModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] AppModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] TradeModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] CertificateModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] OrderModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] UserModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] OrganizationModule dependencies initialized +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] DeviceModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [InstanceLoader] CertificationRequestModule dependencies initialized +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] AppController {}: +5ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/auth/login, POST} route +2ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] FileController {/file}: +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/file, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/file/:id, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] UserController {/user}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user/register, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user/me, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user/:id, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user/profile, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user/password, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user/chainAddress, PUT} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user/confirm-email/:token, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/user/re-send-confirm-email, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] ConfigurationController {/configuration}: +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/configuration, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/configuration, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] OrganizationController {/Organization}: +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/invitation, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/:id/users, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/:id/devices, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/:id, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/:id, DELETE} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/:id, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/:id/invitations, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/invitation/:invitationId, PUT} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/invite, POST} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/:id/remove-member/:userId, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Organization/:id/change-role/:userId, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] DeviceController {/Device}: +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/my-devices, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/supplyBy, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/:id, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device, POST} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/:id, DELETE} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/:id, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/:id/settings, PUT} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/:id/smartMeterReading, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/get-by-external-id/:type/:id, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Device/:id/smartMeterReading, PUT} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] CertificateController {/Certificate}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Certificate/:id/OwnershipCommitment, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/Certificate/:id/OwnershipCommitment, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] CertificationRequestController {/CertificationRequest}: +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/CertificationRequest, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/CertificationRequest/validate, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/CertificationRequest/:id, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/CertificationRequest, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] AdminController {/admin}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/admin/users, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/admin/users/:id, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] OrderController {/orders}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/orders/bid, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/orders/ask, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/orders/ask/buy, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/orders, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/orders/:id, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/orders/:id/cancel, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] AssetController {/asset}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/asset/:id, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] TradeController {/trade}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/trade, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] TransferController {/transfer}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/transfer/all, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/transfer/withdrawal, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] AccountController {/account}: +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/account, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] BundleController {/bundle}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/bundle/available, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/bundle, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/bundle/trade, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/bundle, POST} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/bundle/buy, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/bundle/:id/cancel, PUT} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/bundle/:id/splits, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] DemandController {/demand}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/demand/:id, GET} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/demand, GET} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/demand, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/demand/:id/pause, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/demand/:id/resume, POST} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/demand/:id/archive, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RoutesResolver] OrderBookController {/orderbook}: +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/orderbook/search, POST} route +1ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [RouterExplorer] Mapped {/orderbook/public/search, POST} route +0ms
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [DepositWatcherService] onModuleInit
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [TransferService] Requested last confirmation block from transfers
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [TransferService] Last known confirmation block is 0
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [DepositWatcherService] Starting from block 0
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [WithdrawalProcessorService] Initializing withdrawal processor for 0x4b05816A94cF40A395867EAecA91395D6fEE161A using 0xa007C764C2fBE2D22BD7Ec9691776C1bd64F3EA1
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [WithdrawalProcessorService] Found 0 TransferStatus.Accepted withdrawals
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [WithdrawalProcessorService] Found 0 TransferStatus.Unconfirmed withdrawals
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [TradeService] Initializing trade service
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [TradeService] Loading trades cache
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [TradeService] Found 0 trades to load
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [MatchingEngineService] Initializing matching engine with AskPrice strategy
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [OrderService] Requested all active orders
-origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [OrderService] Found 0 active orders
+...
+...
+...
+...
 origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [MatchingEngineService] Submitting 0 existing orders
 origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [CertificationRequestWatcherService] onModuleInit
 origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [NestApplication] Nest application successfully started +187ms
@@ -848,4 +692,217 @@ Now while having API endpoint running we should be able to successfully login in
 curl --location --request POST 'http://localhost:3000/api/auth/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{"username": "issuer@example.com", "password": "test"}'
+```
+
+
+## UI Setup using Origin UI Core
+
+### Project setup
+
+Let's now create another package for hosting our Origin UI based project.
+
+```cmd
+mkdir packages/ui
+cd packages/ui
+yarn init -y
+```
+
+Create the TypeScript configuration file.
+
+```bash
+yarn add typescript --dev
+touch tsconfig.json
+```
+
+With the contents:
+
+```json
+{
+  "compilerOptions": {
+    "module": "commonjs",
+    "declaration": true,
+    "removeComments": true,
+    "emitDecoratorMetadata": true,
+    "experimentalDecorators": true,
+    "target": "es2017",
+    "sourceMap": true,
+    "outDir": "./dist",
+    "baseUrl": "./",
+    "incremental": true
+  },
+  "exclude": ["node_modules", "dist"]
+}
+```
+
+Let's also create the folder structure and install all the necessary dependencies to run the UI:
+
+```bash
+mkdir packages/ui/src
+
+cd packages/ui
+
+yarn add -D react react-dom @energyweb/origin-ui-core webpack-dev-server webpack-cli @storybook/addon-knobs copy-webpack-plugin css-loader fork-ts-checker-webpack-plugin html-webpack-plugin node-sass react react-dom sass-loader style-loader ts-loader url-loader
+```
+
+We need to install React and React DOM, along with the [Origin UI core](https://github.com/energywebfoundation/origin/tree/master/packages/origin-ui-core) package from the Energy Web Foundation which we will extend. Webpack is needed to package the application.
+
+Once we have all the required packages installed, we need to initialize the our UI. Create 2 new files file:
+
+`packages/ui/src/index.tsx`
+```tsx
+import { render } from 'react-dom';
+import React from 'react';
+
+import {
+    Origin,
+    OriginConfigurationProvider,
+    createOriginConfiguration
+} from '@energyweb/origin-ui-core';
+
+const originConfiguration = createOriginConfiguration({
+    // Override the Origin configuration here
+});
+
+render(
+    <OriginConfigurationProvider value={originConfiguration}>
+        <Origin />
+    </OriginConfigurationProvider>,
+    document.getElementById('root')
+);
+```
+
+`packages/ui/src/index.ejs`
+```html
+<!DOCTYPE html>
+<html>
+  <head>
+    <meta charset="utf-8">
+    <title><%= htmlWebpackPlugin.options.title %></title>
+    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+    <base href="/" />
+  </head>
+  <body>
+    <div id="root"></div>
+    <div class="hero-bg"></div>
+  </body>
+</html>
+```
+
+Let's now initialize our Webpack configuration
+
+`packages/ui/webpack/dev.config.js`
+```js
+const ExtractTextPlugin = require('extract-text-webpack-plugin');
+const HtmlWebpackPlugin = require('html-webpack-plugin');
+const CopyWebpackPlugin = require('copy-webpack-plugin');
+const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const path = require('path');
+
+module.exports = {
+    mode: 'development',
+
+    // Enable sourcemaps for debugging webpack's output.
+    devtool: 'source-map',
+
+    entry: './src/index.tsx',
+
+    resolve: {
+        // Add '.ts' and '.tsx' as resolvable extensions.
+        extensions: ['.ts', '.tsx', '.js', '.json']
+    },
+
+    devServer: {
+        port: 3000,
+        compress: true,
+        historyApiFallback: true
+    },
+
+    plugins: [
+        new ExtractTextPlugin({
+            filename: 'styles.css',
+            allChunks: true
+        }),
+        new HtmlWebpackPlugin({
+            title: 'Origin',
+            template: './src/index.ejs',
+            meta: {
+                viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
+            }
+        }),
+        new CopyWebpackPlugin([{ from: 'env-config.js', to: 'env-config.js' }]),
+        new ForkTsCheckerWebpackPlugin()
+    ],
+    module: {
+        rules: [
+            {
+                test: /\.(scss|css)$/,
+                use: [
+                    {
+                        loader: 'style-loader' // creates style nodes from JS strings
+                    },
+                    {
+                        loader: 'css-loader' // translates CSS into CommonJS
+                    },
+                    {
+                        loader: 'sass-loader' // compiles Sass to CSS
+                    }
+                ]
+            },
+            {
+                test: /\.(png|jpg|gif|svg)$/,
+                use: [
+                    {
+                        loader: 'url-loader',
+                        options: {
+                            limit: 8192
+                        }
+                    }
+                ]
+            },
+
+            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+            { enforce: 'pre', test: /\.js\.map$/, loader: 'source-map-loader' },
+            {
+                test: /\.tsx?$/,
+                loader: 'ts-loader',
+                options: {
+                    configFile: '../tsconfig.json',
+                    projectReferences: true,
+                    transpileOnly: true
+                }
+            }
+        ]
+    },
+
+    node: {
+        fs: 'empty'
+    },
+
+    externals: [
+        {
+            xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
+        }
+    ]
+};
+```
+
+Now let's configure our UI .env file. Create a new file in the UI package:
+
+`packages/ui/env-config.js`
+```js
+{
+    "MODE": "dev",
+    "WEB3": "http://localhost:8545",
+    "BACKEND_URL": "http://localhost",
+    "BACKEND_PORT": "3030",
+    "BLOCKCHAIN_EXPLORER_URL": "",
+    "REGISTRATION_MESSAGE_TO_SIGN": "I register as an Origin user",
+    "ISSUER_ID": "Issuer ID"
+}
+```
+
+We should now be able to start our UI application. Run the following command to start the Origin UI:
+```bash
+cd packages/ui
+npx webpack-dev-server --config webpack/dev.config.js --watch
 ```
