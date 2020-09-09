@@ -2,7 +2,7 @@
   <br>
   <a href="https://www.energyweb.org/"><img src="https://www.energyweb.org/wp-content/uploads/2019/04/logo-brand.png" alt="EnergyWeb" width="150"></a>
   <br>
-  EnergyWeb Origin
+  EnergyWeb Origin Integration Tutorial
   <br>
   <br>
 </h1>
