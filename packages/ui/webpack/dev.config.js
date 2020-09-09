@@ -50,6 +50,9 @@ module.exports = {
                         loader: 'css-loader' // translates CSS into CommonJS
                     },
                     {
+                        loader: 'resolve-url-loader',
+                    },
+                    {
                         loader: 'sass-loader' // compiles Sass to CSS
                     }
                 ]
@@ -65,7 +68,6 @@ module.exports = {
                     }
                 ]
             },
-
             // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
             { enforce: 'pre', test: /\.js\.map$/, loader: 'source-map-loader' },
             {

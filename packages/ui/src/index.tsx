@@ -7,6 +7,8 @@ import {
     createOriginConfiguration
 } from '@energyweb/origin-ui-core';
 
+import './styles/app.scss';
+
 const originConfiguration = createOriginConfiguration({
     /* 
         Override the Origin configuration here

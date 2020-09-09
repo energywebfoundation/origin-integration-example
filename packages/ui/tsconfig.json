@@ -2,7 +2,7 @@
     "compilerOptions": {
         "jsx": "react",
         "module": "commonjs",
-        "declaration": true,
+        "declaration": false,
         "removeComments": true,
         "emitDecoratorMetadata": true,
         "experimentalDecorators": true,
@@ -11,7 +11,10 @@
         "outDir": "./dist",
         "baseUrl": "./",
         "incremental": true,
-        "esModuleInterop": true
+        "esModuleInterop": true,
+        "moduleResolution": "node",
+        "noImplicitAny": false,
+        "lib": ["es2019", "dom"]
     },
     "exclude": [
         "node_modules",
