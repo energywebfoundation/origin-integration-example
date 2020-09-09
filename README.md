@@ -1,6 +1,18 @@
-# origin-integration-example
+<h1 align="center">
+  <br>
+  <a href="https://www.energyweb.org/"><img src="https://www.energyweb.org/wp-content/uploads/2019/04/logo-brand.png" alt="EnergyWeb" width="150"></a>
+  <br>
+  EnergyWeb Origin
+  <br>
+  <br>
+</h1>
 
-An example Origin SDK integration project
+Welcome to the Origin SDK integration tutorial. We will guide you step-by-step on how to: 
+- 🏗 create the structure and install tooling of the example project
+- 🎨 configure and customize your Origin based integration
+- 🚀 launch your API and UI services using Origin SDK
+
+Origin SDK repository https://github.com/energywebfoundation/origin
 
 ## Preparations
 
