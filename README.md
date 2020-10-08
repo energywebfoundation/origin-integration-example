@@ -20,23 +20,27 @@ Origin SDK repository https://github.com/energywebfoundation/origin
 
 Our example integration with Origin SDK will use the Lerna monorepo structure to host 2 projects, API and UI.
 
-Let's start with installing lerna tool:
+Let's start by installing the lerna tool:
 
-`yarn global add lerna`
+`yarn global add lerna`,
+
+setting the correct license (you can choose any GPL v3.0+ compatible license):
+
+`yarn config set init-license GPL-3.0-or-later`
 
 and initializing the basic repo structure
 
-`lerna init`
+`lerna init`.
 
-as an result we should end up with such a project structure
+It's a good idea to add a README.md and LICENSE file to your project as well.
+As an result we should end up with such a project structure:
 
 ```
 ├── LICENSE
 ├── README.md
-├── coverage
 ├── lerna.json
 ├── package.json
-└── packages
+└── packages/
 ```
 
 Next let's edit `lerna.json` file and add those lines which will setup lerna to use Yarn workspaces capabilities
@@ -88,7 +92,7 @@ which generates `package.json` with such an content in our packages directory
   "name": "origin-api",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT"
+  "license": "GPL-3.0-or-later"
 }
 ```
 
@@ -145,13 +149,16 @@ Next, let's setup basic Typescript setting and yarn scripts
 - add `"include": ["src/**/*"]` to your `tsconfig.json` file
 - add `"scripts": { "build": "tsc" }` to your `package.json` file
 
-### Nest.JS
+### NestJS
 
-Origin SDK API packages are designed as composable Nest.JS modules, this allows to pick and customize Origin integrations by providing custom implementations. Before we start including existing Origin API modules we need to install Nest.JS framework in our `origin-api` project.
+Origin SDK API packages are designed as composable NestJS modules, this allows to pick and customize Origin integrations by providing custom implementations. Before we start including existing Origin API modules we need to install NestJS framework in our `origin-api` project.
 
 ```
+cd packages/origin-api
 yarn add @nestjs/cli @nestjs/common @nestjs/core @nestjs/config @nestjs/typeorm @nestjs/platform-express reflect-metadata
 ```
+
+**WARN** I'm getting many "You must install peer dependencies yourself." warnings.
 
 Next add the start script to your `origin-api/package.json`
 
@@ -162,9 +169,9 @@ Next add the start script to your `origin-api/package.json`
   },
 ```
 
-Next create initial `app.module.ts` and `main.ts` files as an entry place for Nest.JS project
+Next create initial `app.module.ts` and `main.ts` files inside `origin-api/src` as an entry place for NestJS project
 
-`origin-api/main.ts`
+`origin-api/src/main.ts`
 
 ```typescript
 import { NestFactory } from "@nestjs/core";
@@ -180,7 +187,7 @@ async function bootstrap() {
 bootstrap();
 ```
 
-`origin-api/app.module.ts`
+`origin-api/src/app.module.ts`
 
 ```typescript
 import { Module } from "@nestjs/common";
@@ -191,7 +198,7 @@ export class AppModule {}
 
 After adding those file you can start this empty API project by
 
-`yarn start` results in
+`yarn start`
 
 ```
 $ nest start -p tsconfig.json
@@ -199,6 +206,8 @@ $ nest start -p tsconfig.json
 [Nest] 56219   - 09/04/2020, 10:30:17 AM   [InstanceLoader] AppModule dependencies initialized +11ms
 [Nest] 56219   - 09/04/2020, 10:30:17 AM   [NestApplication] Nest application successfully started +5ms
 ```
+
+Veriy that the server is accessible by opening http://localhost:3000 in your browser. You should get a 404 error response.
 
 ### Origin SDK
 

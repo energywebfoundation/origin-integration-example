@@ -2,7 +2,7 @@
   "name": "origin-api",
   "version": "1.0.0",
   "main": "index.js",
-  "license": "MIT",
+  "license": "GPL-3.0-or-later",
   "devDependencies": {
     "typescript": "^4.0.2"
   },
