@@ -12,7 +12,7 @@
   "scripts": {
     "typeorm:migrate": "typeorm migration:run --config node_modules/@energyweb/exchange/dist/js/ormconfig.js && typeorm migration:run --config node_modules/@energyweb/origin-backend/dist/js/ormconfig.js",
     "migrate:demo": "yarn typeorm:migrate && origin-migrations -e .env -c config/demo-config.json -s config/seed.sql",
-    "run:ganache": "ganache-cli -m \"habit sure critic toe surprise all tuition sister clay make steak bronze\" -l 8000000 -e 1000000 -a 40 -h 0.0.0.0"
+    "run:ganache": "ganache-cli -d -m habit sure critic toe surprise all tuition sister clay make steak bronze"
   },
   "workspaces": [
     "packages/*"

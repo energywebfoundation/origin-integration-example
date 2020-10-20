@@ -9,7 +9,8 @@
   <br>
 </h1>
 
-Welcome to the Origin SDK integration tutorial. We will guide you step-by-step on how to: 
+Welcome to the Origin SDK integration tutorial. We will guide you step-by-step on how to:
+
 - 🏗 create the structure and install tooling of the example project
 - 🎨 configure and customize your Origin based integration
 - 🚀 launch your API and UI services using Origin SDK
@@ -67,9 +68,7 @@ Since we want to take an advantage of `workspaces` feature of Yarn we need to mo
 {
   "name": "root",
   "private": true,
-  "workspaces": [
-    "packages/*"
-  ]
+  "workspaces": ["packages/*"]
 }
 ```
 
@@ -182,7 +181,7 @@ async function bootstrap() {
   app.enableCors();
   app.setGlobalPrefix("api");
 
-  await app.listen(3000);
+  await app.listen(3030);
 }
 bootstrap();
 ```
@@ -207,7 +206,7 @@ $ nest start -p tsconfig.json
 [Nest] 56219   - 09/04/2020, 10:30:17 AM   [NestApplication] Nest application successfully started +5ms
 ```
 
-Veriy that the server is accessible by opening http://localhost:3000 in your browser. You should get a 404 error response.
+Verify that the server is accessible by opening http://localhost:3030 in your browser. You should get a 404 error response.
 
 ### Origin SDK
 
@@ -712,11 +711,10 @@ origin-api: [Nest] 87813   - 09/04/2020, 1:59:33 PM   [NestApplication] Nest app
 Now while having API endpoint running we should be able to successfully login into our API using credentials setup in seed.sql file:
 
 ```bash
-curl --location --request POST 'http://localhost:3000/api/auth/login' \
+curl --location --request POST 'http://localhost:3030/api/auth/login' \
 --header 'Content-Type: application/json' \
 --data-raw '{"username": "issuer@example.com", "password": "test"}'
 ```
-
 
 ## UI Setup using Origin UI Core
 
@@ -772,36 +770,41 @@ We need to install React and React DOM, along with the [Origin UI core](https://
 Once we have all the required packages installed, we need to initialize the our UI. Create 2 new files file:
 
 `packages/ui/src/index.tsx`
+
 ```tsx
-import { render } from 'react-dom';
-import React from 'react';
+import { render } from "react-dom";
+import React from "react";
 
 import {
-    Origin,
-    OriginConfigurationProvider,
-    createOriginConfiguration
-} from '@energyweb/origin-ui-core';
+  Origin,
+  OriginConfigurationProvider,
+  createOriginConfiguration,
+} from "@energyweb/origin-ui-core";
 
 const originConfiguration = createOriginConfiguration({
-    // Override the Origin configuration here
+  // Override the Origin configuration here
 });
 
 render(
-    <OriginConfigurationProvider value={originConfiguration}>
-        <Origin />
-    </OriginConfigurationProvider>,
-    document.getElementById('root')
+  <OriginConfigurationProvider value={originConfiguration}>
+    <Origin />
+  </OriginConfigurationProvider>,
+  document.getElementById("root")
 );
 ```
 
 `packages/ui/src/index.ejs`
+
 ```html
 <!DOCTYPE html>
 <html>
   <head>
-    <meta charset="utf-8">
+    <meta charset="utf-8" />
     <title><%= htmlWebpackPlugin.options.title %></title>
-    <link rel="stylesheet" href="https://fonts.googleapis.com/css?family=Rubik">
+    <link
+      rel="stylesheet"
+      href="https://fonts.googleapis.com/css?family=Rubik"
+    />
     <base href="/" />
   </head>
   <body>
@@ -814,104 +817,106 @@ render(
 Let's now initialize our Webpack configuration
 
 `packages/ui/webpack/dev.config.js`
+
 ```js
-const ExtractTextPlugin = require('extract-text-webpack-plugin');
-const HtmlWebpackPlugin = require('html-webpack-plugin');
-const CopyWebpackPlugin = require('copy-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
-const path = require('path');
+const ExtractTextPlugin = require("extract-text-webpack-plugin");
+const HtmlWebpackPlugin = require("html-webpack-plugin");
+const CopyWebpackPlugin = require("copy-webpack-plugin");
+const ForkTsCheckerWebpackPlugin = require("fork-ts-checker-webpack-plugin");
+const path = require("path");
 
 module.exports = {
-    mode: 'development',
+  mode: "development",
 
-    // Enable sourcemaps for debugging webpack's output.
-    devtool: 'source-map',
+  // Enable sourcemaps for debugging webpack's output.
+  devtool: "source-map",
 
-    entry: './src/index.tsx',
+  entry: "./src/index.tsx",
 
-    resolve: {
-        // Add '.ts' and '.tsx' as resolvable extensions.
-        extensions: ['.ts', '.tsx', '.js', '.json']
-    },
+  resolve: {
+    // Add '.ts' and '.tsx' as resolvable extensions.
+    extensions: [".ts", ".tsx", ".js", ".json"],
+  },
 
-    devServer: {
-        port: 3000,
-        compress: true,
-        historyApiFallback: true
-    },
+  devServer: {
+    port: 3000,
+    compress: true,
+    historyApiFallback: true,
+  },
 
-    plugins: [
-        new ExtractTextPlugin({
-            filename: 'styles.css',
-            allChunks: true
-        }),
-        new HtmlWebpackPlugin({
-            title: 'Origin',
-            template: './src/index.ejs',
-            meta: {
-                viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
-            }
-        }),
-        new CopyWebpackPlugin([{ from: 'env-config.js', to: 'env-config.js' }]),
-        new ForkTsCheckerWebpackPlugin()
+  plugins: [
+    new ExtractTextPlugin({
+      filename: "styles.css",
+      allChunks: true,
+    }),
+    new HtmlWebpackPlugin({
+      title: "Origin",
+      template: "./src/index.ejs",
+      meta: {
+        viewport: "width=device-width, initial-scale=1, shrink-to-fit=no",
+      },
+    }),
+    new CopyWebpackPlugin([{ from: "env-config.js", to: "env-config.js" }]),
+    new ForkTsCheckerWebpackPlugin(),
+  ],
+  module: {
+    rules: [
+      {
+        test: /\.(scss|css)$/,
+        use: [
+          {
+            loader: "style-loader", // creates style nodes from JS strings
+          },
+          {
+            loader: "css-loader", // translates CSS into CommonJS
+          },
+          {
+            loader: "sass-loader", // compiles Sass to CSS
+          },
+        ],
+      },
+      {
+        test: /\.(png|jpg|gif|svg)$/,
+        use: [
+          {
+            loader: "url-loader",
+            options: {
+              limit: 8192,
+            },
+          },
+        ],
+      },
+
+      // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
+      { enforce: "pre", test: /\.js\.map$/, loader: "source-map-loader" },
+      {
+        test: /\.tsx?$/,
+        loader: "ts-loader",
+        options: {
+          configFile: "../tsconfig.json",
+          projectReferences: true,
+          transpileOnly: true,
+        },
+      },
     ],
-    module: {
-        rules: [
-            {
-                test: /\.(scss|css)$/,
-                use: [
-                    {
-                        loader: 'style-loader' // creates style nodes from JS strings
-                    },
-                    {
-                        loader: 'css-loader' // translates CSS into CommonJS
-                    },
-                    {
-                        loader: 'sass-loader' // compiles Sass to CSS
-                    }
-                ]
-            },
-            {
-                test: /\.(png|jpg|gif|svg)$/,
-                use: [
-                    {
-                        loader: 'url-loader',
-                        options: {
-                            limit: 8192
-                        }
-                    }
-                ]
-            },
+  },
 
-            // All output '.js' files will have any sourcemaps re-processed by 'source-map-loader'.
-            { enforce: 'pre', test: /\.js\.map$/, loader: 'source-map-loader' },
-            {
-                test: /\.tsx?$/,
-                loader: 'ts-loader',
-                options: {
-                    configFile: '../tsconfig.json',
-                    projectReferences: true,
-                    transpileOnly: true
-                }
-            }
-        ]
+  node: {
+    fs: "empty",
+  },
+
+  externals: [
+    {
+      xmlhttprequest: "{XMLHttpRequest:XMLHttpRequest}",
     },
-
-    node: {
-        fs: 'empty'
-    },
-
-    externals: [
-        {
-            xmlhttprequest: '{XMLHttpRequest:XMLHttpRequest}'
-        }
-    ]
+  ],
 };
 ```
 
 Now let's configure our UI .env file. Create a new file in the UI package:
 
 `packages/ui/env-config.js`
+
 ```js
 {
     "MODE": "dev",
@@ -925,6 +930,7 @@ Now let's configure our UI .env file. Create a new file in the UI package:
 ```
 
 We should now be able to start our UI application. Run the following command to start the Origin UI:
+
 ```bash
 cd packages/ui
 npx webpack-dev-server --config webpack/dev.config.js --watch
