@@ -6,7 +6,7 @@
     "typeorm": "^0.2.25"
   },
   "dependencies": {
-    "@energyweb/migrations": "^3.1.10",
+    "@energyweb/migrations": "3.2.0",
     "ganache-cli": "6.8.2"
   },
   "scripts": {
