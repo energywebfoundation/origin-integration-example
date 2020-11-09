@@ -7,22 +7,23 @@
     "start": "webpack-dev-server --config webpack/dev.config.js --watch"
   },
   "devDependencies": {
+    "@energyweb/utils-general": "9.3.0",
     "@energyweb/origin-ui-core": "1.9.0",
-    "@storybook/addon-knobs": "^6.0.21",
+    "@storybook/addon-knobs": "6.0.21",
     "copy-webpack-plugin": "5.1.2",
-    "css-loader": "^4.2.2",
-    "fork-ts-checker-webpack-plugin": "^5.1.0",
-    "html-webpack-plugin": "^4.4.1",
-    "node-sass": "^4.14.1",
-    "react": "^16.13.1",
-    "react-dom": "^16.13.1",
-    "resolve-url-loader": "^3.1.1",
-    "sass-loader": "^10.0.2",
-    "source-map-loader": "^1.1.0",
-    "style-loader": "^1.2.1",
-    "ts-loader": "^8.0.3",
-    "url-loader": "^4.1.0",
-    "webpack-cli": "^3.3.12",
-    "webpack-dev-server": "^3.11.0"
+    "css-loader": "4.2.2",
+    "fork-ts-checker-webpack-plugin": "5.1.0",
+    "html-webpack-plugin": "4.4.1",
+    "node-sass": "4.14.1",
+    "react": "16.13.1",
+    "react-dom": "16.13.1",
+    "resolve-url-loader": "3.1.1",
+    "sass-loader": "10.0.2",
+    "source-map-loader": "1.1.0",
+    "style-loader": "1.2.1",
+    "ts-loader": "8.0.3",
+    "url-loader": "4.1.0",
+    "webpack-cli": "3.3.12",
+    "webpack-dev-server": "3.11.0"
   }
 }
