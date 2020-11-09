@@ -2,8 +2,8 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "^3.17.0",
-    "typeorm": "^0.2.25"
+    "lerna": "3.17.0",
+    "typeorm": "0.2.25"
   },
   "dependencies": {
     "@energyweb/migrations": "3.2.0",
