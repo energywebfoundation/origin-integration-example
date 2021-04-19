@@ -503,10 +503,10 @@
   resolved "https://registry.yarnpkg.com/@energyweb/origin-energy-api-client/-/origin-energy-api-client-1.1.0.tgz#3912f4b4be9bf1b2a6a6fffb647dd0c3fc6ff54c"
   integrity sha512-p+lXT057C99nxtf0Q3BIvTQ5Xu27XHKkZOnl9kbRJDtGUafHAfi0WhSrrpxzossHq82BTK3u8+g47N7BrkTzlA==
   dependencies:
-    "@energyweb/origin-energy-api" "1.0.2"
+    "@energyweb/origin-energy-api" "1.0.3-alpha.1618478372.0"
     axios "0.21.1"
 
-"@energyweb/origin-energy-api@1.0.2":
+"@energyweb/origin-energy-api@1.0.3":
   version "1.0.3-alpha.1618478372.0"
   resolved "https://registry.yarnpkg.com/@energyweb/origin-energy-api/-/origin-energy-api-1.0.3-alpha.1618478372.0.tgz#b6fb686c212a858ee24e4eecc10d7c5b9fbaeebc"
   integrity sha512-dkHVOqB0Wd0U8oSjvP/LBK1SBHa9PoC0+c2iC0UEzvy1qB9OaOkqIRsY7BcDNTsOcRNqz3nEWOQFp/vn9ZpcUw==
