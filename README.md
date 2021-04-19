@@ -260,7 +260,7 @@ import {
 } from "@energyweb/exchange";
 ```
 
-Imports top-level `AppModule` and all `entities` from `@energyweb/exchange` packages [https://github.com/energywebfoundation/origin/blob/release/packages/exchange/src/app.module.ts]
+Imports top-level `AppModule` and all `entities` from `@energyweb/exchange` packages [https://github.com/energywebfoundation/origin/blob/master/packages/trade/exchange/src/app.module.ts]
 
 2. Origin-backend modules
 
