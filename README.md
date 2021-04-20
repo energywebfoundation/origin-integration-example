@@ -136,7 +136,8 @@ Paste this content to your `tsconfig.json` file
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "dist"]
 }
@@ -242,7 +243,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       entities: [...OriginBackendEntities, ...ExchangeEntities],
       logging: ["info"],
     }),
-    OriginBackendModule.register(null),
+    OriginBackendModule,
     ExchangeModule,
   ],
 })
