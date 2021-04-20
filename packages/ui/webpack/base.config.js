@@ -22,6 +22,8 @@ module.exports = {
             http: require.resolve('stream-http'),
             https: require.resolve('https-browserify'),
             vm: require.resolve('vm-browserify'),
+            util: require.resolve('util/'),
+            assert: require.resolve('assert/'),
             fs: false
         }
     },
