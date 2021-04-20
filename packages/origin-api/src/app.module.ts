@@ -26,7 +26,7 @@ import { ConfigModule } from "@nestjs/config";
       entities: [...OriginBackendEntities, ...ExchangeEntities],
       logging: ["info"],
     }),
-    OriginBackendModule.register(null),
+    OriginBackendModule,
     ExchangeModule,
   ],
 })
