@@ -1,14 +1,9 @@
 import {
   AppModule as ExchangeModule,
   entities as ExchangeEntities,
+  IExchangeConfigurationService,
   IOrderMapperService,
-  Order,
 } from "@energyweb/exchange";
-import {
-  IMatchableProduct,
-  IMatchableOrder,
-  Order as MatchingEngineOrder,
-} from '@energyweb/exchange-core';
 import {
   AppModule as OriginBackendModule,
   OrganizationModule,
@@ -18,36 +13,23 @@ import {
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-import { Injectable } from '@nestjs/common';
+import { OrderMapperService, DeviceTypeServiceWrapper } from '@energyweb/exchange-irec';
 
-export class MatchableProduct implements IMatchableProduct<string, string> {
-  product: string;
-
-  matches(product: string): boolean {
-      return true;
-  }
-
-  filter(filter: string): boolean {
-      return true;
-  }
-}
-
-@Injectable()
-export class OrderMapperService implements IOrderMapperService<string, string> {
-    async map(order: Order): Promise<IMatchableOrder<string, string>> {
-        return new MatchingEngineOrder(
-            order.id,
-            order.side,
-            order.validFrom,
-            new MatchableProduct(),
-            order.price,
-            order.currentVolume,
-            order.userId,
-            order.createdAt,
-            order.assetId
-        );
-    }
-}
+const deviceTypes = [
+  ['Solar'],
+  ['Solar', 'Photovoltaic'],
+  ['Solar', 'Photovoltaic', 'Roof mounted'],
+  ['Solar', 'Photovoltaic', 'Ground mounted'],
+  ['Solar', 'Photovoltaic', 'Classic silicon'],
+  ['Solar', 'Concentration'],
+  ['Wind'],
+  ['Wind', 'Onshore'],
+  ['Wind', 'Offshore'],
+  ['Marine'],
+  ['Marine', 'Tidal'],
+  ['Marine', 'Tidal', 'Inshore'],
+  ['Marine', 'Tidal', 'Offshore']
+];
 
 @Module({
   imports: [
@@ -70,6 +52,15 @@ export class OrderMapperService implements IOrderMapperService<string, string> {
     ExchangeModule,
     UserModule,
   ],
-  providers: [{ provide: IOrderMapperService, useClass: OrderMapperService }]
+  providers: [
+    DeviceTypeServiceWrapper,
+    { provide: IOrderMapperService, useClass: OrderMapperService },
+    { provide: IExchangeConfigurationService, useValue: {
+      getRegistryAddress: async () => '0xd46aC0Bc23dB5e8AfDAAB9Ad35E9A3bA05E092E8',
+      getIssuerAddress: async () => '0xd46aC0Bc23dB5e8AfDAAB9Ad35E9A3bA05E092E8',
+      getDeviceTypes: async () => deviceTypes,
+      getGridOperators: async () => ['TH-PEA', 'TH-MEA']
+  } },
+  ]
 })
 export class AppModule {}
