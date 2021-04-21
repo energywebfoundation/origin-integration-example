@@ -136,7 +136,8 @@ Paste this content to your `tsconfig.json` file
     "sourceMap": true,
     "outDir": "./dist",
     "baseUrl": "./",
-    "incremental": true
+    "incremental": true,
+    "skipLibCheck": true
   },
   "exclude": ["node_modules", "dist"]
 }
@@ -242,7 +243,7 @@ import { TypeOrmModule } from "@nestjs/typeorm";
       entities: [...OriginBackendEntities, ...ExchangeEntities],
       logging: ["info"],
     }),
-    OriginBackendModule.register(null),
+    OriginBackendModule,
     ExchangeModule,
   ],
 })
@@ -260,7 +261,7 @@ import {
 } from "@energyweb/exchange";
 ```
 
-Imports top-level `AppModule` and all `entities` from `@energyweb/exchange` packages [https://github.com/energywebfoundation/origin/blob/master/packages/trade/exchange/src/app.module.ts]
+Imports top-level `AppModule` and all `entities` from `@energyweb/exchange` packages [https://github.com/energywebfoundation/origin/blob/release/packages/exchange/src/app.module.ts]
 
 2. Origin-backend modules
 
@@ -294,12 +295,12 @@ TypeOrmModule.forRoot({
 
 The DB of choice used by Origin SDK is Postgres SQL, while it's possible to use other DB to run Origin we strongly recommend to use Postgres SQL.
 
-We recommend using Docker to install provision Postgres SQL for Origin API. Script below requires `psql` tool for DB creation process, follow this guide to install it on your OS of choice https://blog.timescale.com/tutorials/how-to-install-psql-on-mac-ubuntu-debian-windows/
+We recommend using Docker to install provision Postgres SQL for Origin API.
 
 ```cmd
 docker pull postgres
 docker run --name origin-postgres -e POSTGRES_PASSWORD=postgres -d -p 5432:5432 postgres
-psql -h localhost -p 5432 -U postgres -c "CREATE DATABASE origin"
+docker exec origin-postgres bash -c "psql -U postgres -c \"CREATE DATABASE origin\""
 ```
 
 #### Origin configuration and migrations

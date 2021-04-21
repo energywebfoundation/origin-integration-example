@@ -1,19 +1,15 @@
 const baseConfig = require('./base.config');
-const { merge } = require('webpack-merge');
 const HtmlWebpackPlugin = require('html-webpack-plugin');
-const ForkTsCheckerWebpackPlugin = require('fork-ts-checker-webpack-plugin');
+const { merge } = require('webpack-merge');
 
 module.exports = merge(baseConfig, {
-    mode: 'development',
-
-    // Enable sourcemaps for debugging webpack's output.
-    devtool: 'source-map',
+    mode: 'production',
 
     plugins: [
-        new ForkTsCheckerWebpackPlugin(),
         new HtmlWebpackPlugin({
             title: 'Origin',
-            template: './src/dev.ejs',
+            favicon: 'favicon.ico',
+            template: './src/index.ejs',
             meta: {
                 viewport: 'width=device-width, initial-scale=1, shrink-to-fit=no'
             }
@@ -28,7 +24,7 @@ module.exports = merge(baseConfig, {
                 options: {
                     configFile: '../tsconfig.json',
                     projectReferences: true,
-                    transpileOnly: true
+                    transpileOnly: false
                 }
             }
         ]

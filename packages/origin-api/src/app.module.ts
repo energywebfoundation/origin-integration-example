@@ -1,14 +1,20 @@
-import {
-  AppModule as ExchangeModule,
-  entities as ExchangeEntities,
-} from "@energyweb/exchange";
+import { entities as ExchangeEntities } from "@energyweb/exchange";
+import { AppModule as ExchangeModule } from "@energyweb/exchange-irec";
 import {
   AppModule as OriginBackendModule,
+  OrganizationModule,
+  UserModule,
   entities as OriginBackendEntities,
 } from "@energyweb/origin-backend";
+import {
+  AppModule as IssuerModule,
+  entities as IssuerEntities,
+} from "@energyweb/issuer-api";
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
+
+import { IntegrationModule } from "./integration/integration.module";
 
 @Module({
   imports: [
@@ -23,11 +29,15 @@ import { ConfigModule } from "@nestjs/config";
       username: process.env.DB_USERNAME ?? "postgres",
       password: process.env.DB_PASSWORD ?? "postgres",
       database: process.env.DB_DATABASE ?? "origin",
-      entities: [...OriginBackendEntities, ...ExchangeEntities],
+      entities: [...OriginBackendEntities, ...ExchangeEntities, ...IssuerEntities],
       logging: ["info"],
     }),
-    OriginBackendModule.register(null),
+    OriginBackendModule,
+    OrganizationModule,
     ExchangeModule,
-  ],
+    UserModule,
+    IntegrationModule,
+    IssuerModule
+  ]
 })
 export class AppModule {}
