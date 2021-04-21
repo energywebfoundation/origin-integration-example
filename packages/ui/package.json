@@ -4,7 +4,7 @@
     "license": "GPL-3.0-or-later",
     "scripts": {
         "build": "webpack --config webpack/prod.config.js",
-        "start": "webpack serve --config webpack/dev.config.js --open"
+        "start": "webpack serve --config webpack/dev.config.js"
     },
     "dependencies": {
         "@energyweb/exchange-ui-core": "1.4.0",

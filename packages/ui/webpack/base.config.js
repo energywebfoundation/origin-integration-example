@@ -27,7 +27,8 @@ module.exports = {
             fs: false
         },
         alias: {
-            'react-redux': require.resolve('react-redux')
+            'react-redux': require.resolve('react-redux'),
+            'react-i18next': require.resolve('react-i18next')
         },
     },
 

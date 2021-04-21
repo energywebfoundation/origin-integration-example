@@ -2,7 +2,7 @@ import { render } from 'react-dom';
 import React from 'react';
 import './styles/app.scss';
 import createSagaMiddleware from 'redux-saga';
-import { OriginConfigurationProvider, IOriginConfiguration, UiCoreAdapter, LoginPage } from '@energyweb/origin-ui-core';
+import { OriginConfigurationProvider, IOriginConfiguration, UiCoreAdapter, LoginPage, Admin, Organization } from '@energyweb/origin-ui-core';
 import { allOriginFeatures, OriginFeature } from '@energyweb/utils-general';
 import { createMaterialThemeForOrigin } from './theme';
 import { Provider } from 'react-redux';
@@ -10,7 +10,7 @@ import { makeRootReducer } from './features/store';
 import { createBrowserHistory, History } from 'history';
 import { ConnectedRouter } from 'connected-react-router';
 import { runSaga, setSagaRunner } from '@vmw/queue-for-redux-saga';
-import { Route } from 'react-router-dom';
+import { Route, Switch } from 'react-router-dom';
 import { sagas } from './features/sagas';
 import { ORIGIN_LANGUAGE, ORIGIN_LANGUAGES } from '@energyweb/localization';
 import i18n from 'i18next';
@@ -77,6 +77,7 @@ render(
     <OriginConfigurationProvider value={config}>
         <Provider store={store}>
             <ConnectedRouter history={browserHistory}>
+                <Switch>
                     <Route path='/'>
                         <UiCoreAdapter
                             store={store as any}
@@ -85,6 +86,23 @@ render(
                             component={<LoginPage />}
                         />
                     </Route>
+                    <Route path='/admin'>
+                        <UiCoreAdapter
+                            store={store as any}
+                            configuration={config}
+                            history={browserHistory}
+                            component={<Admin />}
+                        />
+                    </Route>
+                    <Route path='/organization'>
+                        <UiCoreAdapter
+                            store={store as any}
+                            configuration={config}
+                            history={browserHistory}
+                            component={<Organization />}
+                        />
+                    </Route>
+                </Switch>
             </ConnectedRouter>
         </Provider>
     </OriginConfigurationProvider>,
