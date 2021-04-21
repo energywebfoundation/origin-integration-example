@@ -21,10 +21,10 @@ INSERT INTO public."user" ("createdAt", "updatedAt", id, title, "firstName", "la
   VALUES ('2020-03-30 10:08:33.510625+02', '2020-03-30 10:08:33.652639+02', 2, 'Mr', 'Trader', 'Surname', 'trader@example.com', '111-111-111', '$2a$08$j8LnGtFdbTfKN5F.0InfdO2gxMWXHbrjWvRziCIl0lRj.kxOKJ/b6', '0x7672fa3f8c04abbcbad14d896aad8bedece72d2b', '0xb0a804f410f2934278703eb992e5ba12f9e8b9068b68ff6d1246a56cf52e48677d3648057453d86f4372b2ffd98fa189aee1562d8c564ac62bc416d6cdc474051c', 'f', '1', 2, '1', '1');
 
 INSERT INTO "public"."user" ("createdAt", "updatedAt", "id", "title", "firstName", "lastName", "email", "telephone", "password", "blockchainAccountAddress", "blockchainAccountSignedMessage", "notifications", "rights", "organizationId", "status", "kycStatus")
-  VALUES ('2020-03-30 08:08:33.510625+00', '2020-03-30 08:08:33.652639+00', 3, 'Mr', 'Admin', 'Surname', 'admin@example.com', '111-111-111', '$2a$08$j8LnGtFdbTfKN5F.0InfdO2gxMWXHbrjWvRziCIl0lRj.kxOKJ/b6', '0x7672fa3f8c04abbcbad14d896aad8bedece72d2b', '0xb0a804f410f2934278703eb992e5ba12f9e8b9068b68ff6d1246a56cf52e48677d3648057453d86f4372b2ffd98fa189aee1562d8c564ac62bc416d6cdc474051c', 'f', '16', 3, '1', '1');
+  VALUES ('2020-03-30 08:08:33.510625+00', '2020-03-30 08:08:33.652639+00', 3, 'Mr', 'Admin', 'Surname', 'admin@example.com', '111-111-111', '$2a$08$j8LnGtFdbTfKN5F.0InfdO2gxMWXHbrjWvRziCIl0lRj.kxOKJ/b6', NULL, NULL, 'f', '16', 3, '1', '1');
 
 INSERT INTO "public"."user" ("createdAt", "updatedAt", "id", "title", "firstName", "lastName", "email", "telephone", "password", "blockchainAccountAddress", "blockchainAccountSignedMessage", "notifications", "rights", "organizationId", "status", "kycStatus")
-  VALUES ('2020-03-30 08:08:33.510625+00', '2020-03-30 08:08:33.652639+00', 4, 'Mr', 'Agents', 'Surname', 'agents@example.com', '111-111-111', '$2a$08$j8LnGtFdbTfKN5F.0InfdO2gxMWXHbrjWvRziCIl0lRj.kxOKJ/b6', '0x7672fa3f8c04abbcbad14d896aad8bedece72d2b', '0xb0a804f410f2934278703eb992e5ba12f9e8b9068b68ff6d1246a56cf52e48677d3648057453d86f4372b2ffd98fa189aee1562d8c564ac62bc416d6cdc474051c', 'f', '32', 3, '1', '1');
+  VALUES ('2020-03-30 08:08:33.510625+00', '2020-03-30 08:08:33.652639+00', 4, 'Mr', 'Agents', 'Surname', 'agents@example.com', '111-111-111', '$2a$08$j8LnGtFdbTfKN5F.0InfdO2gxMWXHbrjWvRziCIl0lRj.kxOKJ/b6', NULL, NULL, 'f', '32', 3, '1', '1');
 
 SELECT
   setval(pg_get_serial_sequence('public.user', 'id'), (

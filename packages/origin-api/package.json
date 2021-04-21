@@ -12,6 +12,8 @@
   },
   "dependencies": {
     "@energyweb/exchange": "1.9.0",
+    "@energyweb/issuer-api": "0.2.0",
+    "@energyweb/origin-device-registry-irec-form-api": "2.0.0",
     "@energyweb/exchange-irec": "^1.0.2",
     "@energyweb/origin-backend": "10.0.1",
     "@nestjs/cli": "7.6.0",
