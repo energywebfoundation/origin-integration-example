@@ -25,7 +25,10 @@ module.exports = {
             util: require.resolve('util/'),
             assert: require.resolve('assert/'),
             fs: false
-        }
+        },
+        alias: {
+            'react-redux': require.resolve('react-redux')
+        },
     },
 
     devServer: {
