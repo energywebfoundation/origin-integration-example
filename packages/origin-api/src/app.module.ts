@@ -1,5 +1,6 @@
 import { entities as ExchangeEntities } from "@energyweb/exchange";
-import { AppModule as ExchangeModule } from "@energyweb/exchange-irec";
+import { AppModule as ExchangeModule } from "@energyweb/exchange";
+import { AppModule as ExchangeIrecModule } from "@energyweb/exchange-irec";
 import {
   AppModule as OriginBackendModule,
   OrganizationModule,
@@ -35,6 +36,7 @@ import { IntegrationModule } from "./integration/integration.module";
     OriginBackendModule,
     OrganizationModule,
     ExchangeModule,
+    ExchangeIrecModule,
     UserModule,
     IntegrationModule,
     IssuerModule
