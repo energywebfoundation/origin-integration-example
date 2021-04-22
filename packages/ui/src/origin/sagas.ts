@@ -6,12 +6,13 @@ import {
     supplySaga
 } from '@energyweb/exchange-ui-core';
 import { iRecDevicesSaga, iRecGeneralSaga } from '@energyweb/origin-ui-irec-core';
+import { SagaIterator } from '@redux-saga/types';
 
-export const sagas: { [sagaName: string]: typeof ordersSaga } = {
+export const originSagas: { [sagaName: string]: () => SagaIterator } = {
     generalSaga,
     usersSaga,
-    // certificatesSaga,
-    // devicesSaga,
+    certificatesSaga,
+    devicesSaga,
     // exchangeGeneralSaga,
     // ordersSaga,
     // bundlesSaga,
