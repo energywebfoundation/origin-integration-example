@@ -2,6 +2,14 @@ import { entities as ExchangeEntities } from "@energyweb/exchange";
 import { AppModule as ExchangeModule } from "@energyweb/exchange";
 import { AppModule as ExchangeIrecModule } from "@energyweb/exchange-irec";
 import {
+  AppModule as OriginDeviceRegistry,
+  entities as OriginDeviceEntities
+} from '@energyweb/origin-device-registry-api';
+import {
+  AppModule as IRECFormDeviceRegistry,
+  entities as IRECFormDeviceEntities
+} from '@energyweb/origin-device-registry-irec-form-api';
+import {
   AppModule as OriginBackendModule,
   OrganizationModule,
   UserModule,
@@ -14,7 +22,6 @@ import {
 import { Module } from "@nestjs/common";
 import { TypeOrmModule } from "@nestjs/typeorm";
 import { ConfigModule } from "@nestjs/config";
-
 import { IntegrationModule } from "./integration/integration.module";
 
 @Module({
@@ -30,7 +37,13 @@ import { IntegrationModule } from "./integration/integration.module";
       username: process.env.DB_USERNAME ?? "postgres",
       password: process.env.DB_PASSWORD ?? "postgres",
       database: process.env.DB_DATABASE ?? "origin",
-      entities: [...OriginBackendEntities, ...ExchangeEntities, ...IssuerEntities],
+      entities: [
+        ...OriginBackendEntities,
+        ...ExchangeEntities,
+        ...IssuerEntities,
+        ...OriginDeviceEntities,
+        ...IRECFormDeviceEntities,
+      ],
       logging: ["info"],
     }),
     OriginBackendModule,
@@ -39,7 +52,9 @@ import { IntegrationModule } from "./integration/integration.module";
     ExchangeIrecModule,
     UserModule,
     IntegrationModule,
-    IssuerModule
+    IssuerModule,
+    OriginDeviceRegistry,
+    IRECFormDeviceRegistry.register(null),
   ]
 })
 export class AppModule {}

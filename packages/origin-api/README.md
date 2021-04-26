@@ -79,7 +79,9 @@ imports: [
 ...
 ```
 
-Now if you start the application, you should have the connection setup. If there is any problem with a connection to database, application won't start.
+If you start the application, you should have the connection setup. If there is any problem with a connection to database, application won't start.
+
+Now create `IntegrationModule`. The best way to do this is to copy whole [integration directory](./src/integration/index.ts), because it's the most simple implementation of exchange and external device services.
 
 Then, you should import following modules:
 
@@ -101,12 +103,12 @@ imports: [
   ExchangeModule,
   ExchangeIrecModule,
   UserModule,
-  IntegrationModule,
+  IntegrationModule, // the integration module you've created earlier
   IssuerModule
 ]
 ```
 
-Now, the application may not launch until you add configuration.
+The application may not launch until you add configuration.
 
 ### Configuration
 
@@ -127,13 +129,13 @@ imports: [
 ...
 ```
 
-Now, You have to have `.env` file. **Note the `envFilePath` above. It's relative to `package.json`.** In our case of monorepo, this targets root directory.
+You have to have `.env` file. **Note the `envFilePath` above. It's relative to `package.json`.** In our case of monorepo, this targets root directory.
 
 The `.env` file can be created by copying [.env.example](../../.env.example) file.
 
 ## Blockchain
 
-Now you need to connect to a blockchain. To setup local one, you can use `ganache-cli` tool:
+You need to connect to a blockchain. To setup local one, you can use `ganache-cli` tool:
 
 ```
 yarn add ganache-cli
