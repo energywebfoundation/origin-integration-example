@@ -193,9 +193,7 @@ Make sure `ganache-cli` is running.
 
 Copy [demo-config.json](./../../config/demo-config.json) to your local directory.
 
-Copy [seed.sql](./../../config/seed.sql) to your local directory. It setups two organizations:
-- Issuer organization with admin account `issuer@example.com` and password `test` and system role of Issuer
-- Trader organization with admin account `organization-admin@example.com` and password `test` and system role of OrganizationAdmin
+Copy [seed.sql](./../../config/seed.sql) to your local directory.
 
 You has to have `@energyweb/migrations` tool installed:
 
@@ -217,6 +215,8 @@ DEVICE_PROPERTIES_ENABLED=LOCATION
 DEFAULT_ENERGY_IN_BASE_UNIT=1
 ```
 
+
+
 ## Startup
 
 If you start the application everything should work with no errors. The expected output is NestJS log: 
@@ -235,7 +235,7 @@ Since we've setup organizations, we can try to login there with following `curl`
 ```sh
 curl --location --request POST 'http://localhost:3030/api/auth/login' \
 --header 'Content-Type: application/json' \
---data-raw '{"username": "issuer@example.com", "password": "test"}'
+--data-raw '{"username": "issuer@mailinator.com", "password": "test"}'
 ```
 
 If You receive `accessToken` in a response, it means, that database was properly seeded, the connection is working, and API started correctly.
