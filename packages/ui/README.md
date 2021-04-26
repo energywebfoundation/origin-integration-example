@@ -83,7 +83,7 @@ resolve: {
 
 ### Additional loaders
 
-Besides typical frontend development webpack loaders `@svgr/webpack` with `url-loader` are required for svg images:
+Besides typical frontend development webpack `@svgr/webpack` and `url-loader` loaders are required for svg images:
 
 ```js
 module: {
@@ -108,8 +108,6 @@ module: {
 
 ### Externals
 
-@TODO why?
-
 Please add the following
 
 ```
@@ -124,7 +122,7 @@ externals: [
 
 ### Environment configuration loading
 
-@TODO how it works
+Origin SDK configuration loader will request the file at `/env-config.json` to retrieve application configuration, therefore it needs to be present in root directory of the frontend application.
 
 ```js
 plugins: [

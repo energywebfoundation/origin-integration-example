@@ -2,9 +2,6 @@
 
 In this example we will setup Origin API, using provided components.
 
-Frontend uses typical React stack: `react` itself, `react-router-dom` (`connected-react-router`), `redux` (`react-redux`) and `redux-saga`.
-Translations are based on `i18next` (`react-i18next`). All of these libraries will be necessary to run @energyweb components.
-
 Backend uses typical [NestJS](https://nestjs.com/) stack: `nestjs` itself, `typeorm` (as ORM) and `@nestjs/platform-express` (as HTTP adapter).
 
 For the database Origin SDK uses PostgreSQL. It is possible to use other databases as well, but PostgreSQL is strongly recommended.
@@ -34,6 +31,7 @@ docker exec origin-postgres bash -c "psql -U postgres -c \"CREATE DATABASE origi
 You can verify if it's working correctly by running
 
 ```sh
+# List running containers matching name
 docker ps --filter name=origin-postgres
 ```
 
@@ -49,7 +47,7 @@ You can follow [official tutorial](https://docs.nestjs.com/), and you are good t
 
 ### Adding Origin SDK
 
-Start by importing TypeORM module into Nest module. For configuration use values, that match you database. In this example that would be:
+Start by importing TypeORM module into Nest module. For configuration use values, that match your database. In this example that would be:
 
 ```js
 imports: [
@@ -129,7 +127,7 @@ imports: [
 ...
 ```
 
-Now, You have to have `.env` file. Note the `envFilePath` above. It's relative to `package.json`.
+Now, You have to have `.env` file. **Note the `envFilePath` above. It's relative to `package.json`.** In our case of monorepo, this targets root directory.
 
 The `.env` file can be created by copying [.env.example](../../.env.example) file.
 
@@ -150,7 +148,7 @@ ganache-cli -d -m habit sure critic toe surprise all tuition sister clay make st
 Now blockchain is running under `http://localhost:8545` endpoint. As you see in logs,
 accounts and according private keys to these accounts were created. They can be matched by numeric index starting from 0.
 
-Exchange and Issuer modules requires and private keys of the funded accounts to be provided in the `.env` file.
+Exchange and Issuer modules requires accounts and private keys of the accounts to be provided in the `.env` file.
 In our tutorial we are going to use ganache-cli account with index 0 for the purpose.
 
 `0xf50b49b0c61bb9dcb9905df092125d2534009d30fa48545cb6aceef4b561881a` with corresponding address `0xa007C764C2fBE2D22BD7Ec9691776C1bd64F3EA1`
@@ -167,12 +165,81 @@ DEPLOY_KEY=0xf50b49b0c61bb9dcb9905df092125d2534009d30fa48545cb6aceef4b561881a
 WEB3=http://localhost:8545
 ```
 
-Note: This tutorial uses the same account to serve as an issuer contract owner `DEPLOY_KEY` and for exchange related operations, in the production based environments these two responsibilities have to be split.
+Note: This tutorial uses the same account to serve as an issuer contract owner `DEPLOY_KEY` and for exchange related operations. In the production based environments these two responsibilities have to be split.
 
-## Database seed
+## Database migrations
 
-Run migration:
+Run migration (path to modules in node_modules may need to be changed):
 
 ```
-typeorm migration:run --config packages/origin-api/node_modules/@energyweb/exchange/dist/js/ormconfig.js && typeorm migration:run --config packages/origin-api/node_modules/@energyweb/origin-backend/dist/js/ormconfig.js
+yarn typeorm migration:run --config ./node_modules/@energyweb/exchange/dist/js/ormconfig.js
+
+yarn typeorm migration:run --config ./node_modules/@energyweb/origin-backend/dist/js/ormconfig.js
 ```
+
+## Database migrations
+
+These migrations prepare database structure
+
+Run migrations (path to modules in node_modules may need to be changed):
+
+```
+yarn typeorm migration:run --config ./node_modules/@energyweb/exchange/dist/js/ormconfig.js
+
+yarn typeorm migration:run --config ./node_modules/@energyweb/origin-backend/dist/js/ormconfig.js
+
+yarn typeorm migration:run --config node_modules/@energyweb/issuer-api/dist/js/ormconfig.js 
+```
+
+Typeorm migration tools outputs SQLs to stdout, so you can verify if it's working.
+
+## Database seeding, markets setup
+
+Seeding setups some issuers, markets, and other necessary information to run Origin.
+
+Make sure `ganache-cli` is running. 
+
+Copy [demo-config.json](./../../config/demo-config.json) to your local directory.
+
+Copy [seed.sql](./../../config/seed.sql) to your local directory. It setups two organizations:
+- Issuer organization with admin account `issuer@example.com` and password `test` and system role of Issuer
+- Trader organization with admin account `organization-admin@example.com` and password `test` and system role of OrganizationAdmin
+
+Then run:
+
+`yarn origin-migrations -e .env -c config/demo-config.json -s config/seed.sql`
+
+Note the paths to `.env` configuration file, to `demo-config.json` file, and `seed.sql` file.
+
+And please add following to the `.env` configuration file:
+
+```
+ISSUER_ID=Issuer ID
+EXCHANGE_PRICE_STRATEGY=0
+ENERGY_PER_UNIT=1000000
+DEVICE_PROPERTIES_ENABLED=LOCATION
+DEFAULT_ENERGY_IN_BASE_UNIT=1
+```
+
+## Startup
+
+If you start the application everything should work with no errors. The expected output is NestJS log: 
+
+```
+...
+Nest application successfully started
+```
+
+In case of any troubles feel free to open an issue.
+
+## Testing calls
+
+Since we've setup organizations, we can try to login there with following `curl` code (please make sure you use correct address port. In our case it's 3030. It's configured in NestJS bootstrap application code):
+
+```sh
+curl --location --request POST 'http://localhost:3030/api/auth/login' \
+--header 'Content-Type: application/json' \
+--data-raw '{"username": "issuer@example.com", "password": "test"}'
+```
+
+If You receive `accessToken` in a response, it means, that database was properly seeded, the connection is working, and API started correctly.
