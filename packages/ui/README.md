@@ -108,7 +108,7 @@ module: {
 
 ### Externals
 
-Please add the following
+Please add the following, since some dependencies may require `xmlhttprequest` library.
 
 ```
 ...
@@ -122,7 +122,7 @@ externals: [
 
 ### Environment configuration loading
 
-Origin SDK configuration loader will request the file at `/env-config.json` to retrieve application configuration, therefore it needs to be present in root directory of the frontend application.
+Origin SDK configuration loader will request the file at `/env-config.json` to retrieve application configuration, therefore it needs to be present in root directory of the frontend application. For local development `CopyWebpackPlugin` may be used. For production you want to overwrite `env-config.json` file, that you serve from the server.
 
 ```js
 plugins: [
@@ -148,5 +148,22 @@ Create `env-config.json` file in root directory:
 
 ## Prepare React environment
 
+Minimal setup includes:
+
+1. `react-redux` (we use `redux-toolkit` in this tutorial, so you may refer this instead)
+2. `connected-react-router`
+3. `react-saga`
+4. `react-i18next`
+
+You can setup everything using appropriate libraries startup guides.
+
+Quickstart setup can be found in [initialization directory](./src/initialization/index.ts) and [entrypoint](./src/index.tsx). Note, that it does import Origin-specific files.
 
 ## Add Origin configuration
+
+Origin global configuration expects to use a `<OriginConfigurationProvider />` (as in [entrypoint](./src/index.tsx)).
+
+The configuration itself can be configured as in [config file](./src/origin/config.ts) - variables are described there. Also it imports `theme.ts` file, which is `material-ui` theme schema.
+
+We expect to find certain sagas and reducers. You can find those in [sagas.ts file](./src/origin/sagas.ts), and [reducers.ts file](./src/origin/reducers.ts). Please use them in your application (as in [store.ts file](./src/initialization/store.ts)). Also, sagas need to be started: it happens in initialization file](./src/initialization/index.ts).
+
