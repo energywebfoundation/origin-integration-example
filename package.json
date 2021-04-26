@@ -2,7 +2,6 @@
   "name": "root",
   "private": true,
   "devDependencies": {
-    "lerna": "4.0.0",
     "typeorm": "0.2.32"
   },
   "dependencies": {
@@ -10,9 +9,7 @@
     "ganache-cli": "6.12.2"
   },
   "scripts": {
-    "typeorm:migrate": "typeorm migration:run --config node_modules/@energyweb/issuer-api/dist/js/ormconfig.js && typeorm migration:run --config node_modules/@energyweb/exchange/dist/js/ormconfig.js && typeorm migration:run --config node_modules/@energyweb/origin-backend/dist/js/ormconfig.js",
-    "typeorm:drop": "typeorm schema:drop --config node_modules/@energyweb/exchange/dist/js/ormconfig.js",
-    "migrate:demo": "typeorm:migrate && origin-migrations -e .env -c config/demo-config.json -s config/seed.sql"
+    "typeorm:drop": "typeorm schema:drop --config node_modules/@energyweb/exchange/dist/js/ormconfig.js"
   },
   "workspaces": [
     "packages/*"

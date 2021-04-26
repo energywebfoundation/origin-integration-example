@@ -169,16 +169,6 @@ Note: This tutorial uses the same account to serve as an issuer contract owner `
 
 ## Database migrations
 
-Run migration (path to modules in node_modules may need to be changed):
-
-```
-yarn typeorm migration:run --config ./node_modules/@energyweb/exchange/dist/js/ormconfig.js
-
-yarn typeorm migration:run --config ./node_modules/@energyweb/origin-backend/dist/js/ormconfig.js
-```
-
-## Database migrations
-
 These migrations prepare database structure
 
 Run migrations (path to modules in node_modules may need to be changed):
@@ -205,7 +195,11 @@ Copy [seed.sql](./../../config/seed.sql) to your local directory. It setups two 
 - Issuer organization with admin account `issuer@example.com` and password `test` and system role of Issuer
 - Trader organization with admin account `organization-admin@example.com` and password `test` and system role of OrganizationAdmin
 
-Then run:
+You has to have `@energyweb/migrations` tool installed:
+
+`yarn add -D @energyweb/migrations`
+
+so you can run the migration
 
 `yarn origin-migrations -e .env -c config/demo-config.json -s config/seed.sql`
 
