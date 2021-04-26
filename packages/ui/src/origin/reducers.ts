@@ -14,7 +14,6 @@ import {
   supplyState
 } from '@energyweb/exchange-ui-core';
 import { iRecDevicesState, iRecGeneralState } from '@energyweb/origin-ui-irec-core';
-import { Reducer } from 'redux';
 
 export const originReducers = {
   certificatesState,
@@ -23,12 +22,12 @@ export const originReducers = {
   generalState,
   usersState,
   web3State,
-  // bundlesState,
-  // ordersState,
-  // exchangeGeneralState,
-  // supplyState,
-  // iRecDevicesState,
-  // iRecGeneralState,
+  bundlesState,
+  ordersState,
+  exchangeGeneralState,
+  supplyState,
+  iRecDevicesState,
+  iRecGeneralState,
 }
 
 

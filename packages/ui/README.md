@@ -161,9 +161,27 @@ Quickstart setup can be found in [initialization directory](./src/initialization
 
 ## Add Origin configuration
 
-Origin global configuration expects to use a `<OriginConfigurationProvider />` (as in [entrypoint](./src/index.tsx)).
+Origin global configuration expects to use a `<OriginConfigurationProvider />` (as in [entrypoint](./src/index.tsx)) - imported from `@energyweb/origin-ui-core`.
 
 The configuration itself can be configured as in [config file](./src/origin/config.ts) - variables are described there. Also it imports `theme.ts` file, which is `material-ui` theme schema.
 
 We expect to find certain sagas and reducers. You can find those in [sagas.ts file](./src/origin/sagas.ts), and [reducers.ts file](./src/origin/reducers.ts). Please use them in your application (as in [store.ts file](./src/initialization/store.ts)). Also, sagas need to be started: it happens in initialization file](./src/initialization/index.ts).
 
+## Add Origin components
+
+`@energyweb/origin-ui-core` exports `UiCoreAdapter`. This component allows to connect Origin component with your application.
+
+Example usage can be found in [Application component](./src/components/App.tsx):
+
+```tsx
+<UiCoreAdapter
+  store={store}
+  configuration={originConfig}
+  history={history}
+  component={<LoginPage />}
+/>
+```
+
+It expects history object (shared with all other parts of application), configuration (as in [Add Origin configuration](#add-origin-configuration) section), and store reducer.
+
+Application works best if you use pre-defined URLs for router. Those can be imported from `useLinks` function, that is exported from `@energyweb/origin-ui-core`.
