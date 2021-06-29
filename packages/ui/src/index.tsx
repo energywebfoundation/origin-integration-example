@@ -1,25 +1,21 @@
 import { render } from 'react-dom';
 import React from 'react';
-
-import {
-    Origin,
-    OriginConfigurationProvider,
-    createOriginConfiguration
-} from '@energyweb/origin-ui-core';
-import { allOriginFeatures, OriginFeature } from '@energyweb/utils-general';
-
 import './styles/app.scss';
+import { OriginConfigurationProvider } from '@energyweb/origin-ui-core';
+import { Provider } from 'react-redux';
+import { ConnectedRouter } from 'connected-react-router';
+import { initializeApp } from './initialization';
+import { App } from './components/App';
 
-const originConfiguration = createOriginConfiguration({
-    enabledFeatures: allOriginFeatures.filter(feature => feature !== OriginFeature.IRec && feature !== OriginFeature.IRecConnect)
-    /* 
-        Override the Origin configuration here
-    */
-});
-
+const { history, store, originConfig } = initializeApp();
+ 
 render(
-    <OriginConfigurationProvider value={originConfiguration}>
-        <Origin />
+    <OriginConfigurationProvider value={originConfig}>
+        <Provider store={store}>
+            <ConnectedRouter history={history}>
+                <App history={history} />
+            </ConnectedRouter>
+        </Provider>
     </OriginConfigurationProvider>,
     document.getElementById('root')
 );
